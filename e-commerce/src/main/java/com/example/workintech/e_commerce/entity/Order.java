@@ -18,20 +18,15 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name="id")
-    private long id;
+    private Long id;
     @OneToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinColumn(name = "user_id")
     private User user;
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "address_id")
-    private Address address;
 
-    private LocalDateTime date;
+    @Column(name="order_date")
+    private LocalDateTime orderDate;
 
-    @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "card_id")
-    private Card card;
-
+    @Column(name="price")
     private double price;
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -1,6 +1,7 @@
 package com.example.workintech.e_commerce.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name="id")
-    private long id;
+    private Long id;
     @OneToOne(cascade = {CascadeType.ALL},mappedBy = "user")
     private Order order;
 
@@ -30,6 +31,7 @@ public class User {
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "role_id")
+    @JsonBackReference
     private Role role;
 
 }
