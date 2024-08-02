@@ -1,11 +1,13 @@
 package com.example.workintech.e_commerce.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -29,6 +31,8 @@ public class Category {
     private char gender;
 
     @OneToMany(cascade = {CascadeType.ALL},mappedBy = "category")
-    private List<Product> products;
+    @JsonManagedReference
+    private List<Product> products = new ArrayList<>();
+
 
 }

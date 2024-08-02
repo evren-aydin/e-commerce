@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,7 +19,7 @@ public class UserDto {
 
     private Long id;
 
-    private Order order;
+    private List<Order> orders;
     private String name;
 
     private String email;

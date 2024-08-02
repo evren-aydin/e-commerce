@@ -10,7 +10,7 @@ public interface CategoryRepository extends JpaRepository<Category,Long> {
 
 
     @Query("SELECT c From Category c WHERE c.title=:title")
-   Optional<Category> findByTitle(String title);
+   Category findByTitle(String title);
 
 
 }

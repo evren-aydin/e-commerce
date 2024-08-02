@@ -9,6 +9,9 @@ import com.example.workintech.e_commerce.repository.RoleRepository;
 import com.example.workintech.e_commerce.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,7 +20,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService, UserDetailsService {
+
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -26,6 +30,14 @@ public class UserServiceImpl implements UserService{
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(()->{
+                    System.out.println("User credentials are not valid");
+                    throw new UsernameNotFoundException("User credentials are not valid");
+                });
     }
 
     @Override
@@ -93,8 +105,11 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDto delete(long id) {
-        UserDto user = findById(id);
-        userRepository.deleteById(id);
-        return user;
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id, HttpStatus.NOT_FOUND));
+        UserDto userDto = Mappers.userToUserDto(user);
+        userRepository.delete(user);
+        return userDto;
     }
 }
